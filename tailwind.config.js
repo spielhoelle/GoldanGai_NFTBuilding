@@ -11,18 +11,22 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#FFF5F2',
-          100: '#FFF1EE',
-          200: '#FFE4DE',
-          300: '#FFD5CC',
-          400: '#FFBCAD',
-          500: '#FE795D',
-          600: '#EF562F',
-          700: '#EB4F27',
-          800: '#CC4522',
-          900: '#A5371B',
+          '50': '#f0fdfc',
+          '100': '#ccfbf8',
+          '200': '#99f6f0',
+          '300': '#5eeae1',
+          '400': '#2dd4c9',
+          '500': '#14b8ad',
+          '600': '#0d948b',
+          '700': '#0f766f',
+          '800': '#115e59',
+          '900': '#134e4a',
+          '950': '#042f2c',
         },
       },
+      borderRadius: {
+        '4xl': '2rem',
+      }
     },
   },
   plugins: [flowbite, require('@tailwindcss/forms')],

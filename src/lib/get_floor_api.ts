@@ -27,7 +27,6 @@ const floors: Floor[] = [
         gen_version: '1.0',
         rooms: [
             { roomName: 'office-101', description: 'Office room 101.', room_style: 'contemporary' },
-            { roomName: 'conference-room', description: 'Meeting room for conferences.' }
         ]
     },
     {
@@ -139,4 +138,4 @@ export async function getFloorDetails(floorName: string): Promise<Response> {
 }
 
 
-export const floorNames = floors.map(floor => floor.floorName);
+export const floorNames = floors
