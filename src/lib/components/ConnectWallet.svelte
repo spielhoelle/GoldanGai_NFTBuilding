@@ -1,35 +1,40 @@
 <script>
     import { onMount } from 'svelte';
     import { Card, Button } from 'flowbite-svelte';
-    import { ethers } from 'ethers';
-    
-    import detectEthereumProvider from '@metamask/detect-provider';
-   // import { walletStore } from '../../stores/walletStore';
     import { get } from 'svelte/store'; // Import `get` to read from the store
-    import { MetaMaskStore } from "$lib";
-    const { walletState, isMetaMaskPresent, connect, loaded, init,disconnect, mintNFT } = MetaMaskStore();
-    console.log("wallet",$walletState.account)
+    import { MetaMaskStore } from '$lib/connect_crypto';
+   
+    import { walletStore } from '../../stores/walletStore'; // Import walletStore
+    const { isMetaMaskPresent,
+            loaded,
+            connect,
+            init,
+            disconnect 
+    } = MetaMaskStore();
     onMount(() => {
-        init();
+      init(); // Initialize on mount
     });
-    //const { isConnected, userAddress } = get(walletStore);
   </script>
   
   <main>
-    
-    {#if $loaded}
-    {#if $isMetaMaskPresent}
-    {#if Boolean($walletState.account)}
-        <Button on:click={disconnect}> `${$walletState.account}`</Button>
-    {:else}
-        <Button on:click={connect}> Connect Wallet </Button>
-    {/if}
-    {:else}
-    <Button href="https://metamask.io/ja/download/"> Please install MetaMask </Button>
-    {/if}
-    {:else}
-    <p>Loading...</p>
-    {/if}
-
+    <Card>
+      {#if $loaded} 
+        {#if $isMetaMaskPresent} 
+          {#if $walletStore.userAddress}
+            <!-- User is connected, show address and a button to disconnect -->
+            <Button on:click={disconnect}>Disconnect ({$walletStore.userAddress})</Button>
+          {:else}
+            <!-- User is not connected, show connect button -->
+            <Button on:click={connect}>Connect Wallet</Button>
+          {/if}
+        {:else}
+          <!-- MetaMask is not present, show error message -->
+          <p>MetaMask is not installed. Please install it to connect your wallet.</p>
+        {/if}
+      {:else}
+        <!-- Loading state -->
+        <p>Loading...</p>
+      {/if}
+    </Card>
+  </main>
   
-</main>

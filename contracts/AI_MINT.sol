@@ -1,69 +1,48 @@
-pragma solidity ^0.8.18;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-interface IERC7007 is IERC165, IERC721 {
-    event AigcData(
-        uint256 indexed tokenId,
-        bytes indexed prompt,
-        bytes indexed aigcData,
-        bytes proof
-    );
-
-    function addAigcData(
-        uint256 tokenId,
-        bytes calldata prompt,
-        bytes calldata aigcData,
-        bytes calldata proof
-    ) external;
-
-    function verify(
-        bytes calldata prompt,
-        bytes calldata aigcData,
-        bytes calldata proof
-    ) external view returns (bool success);
-}
-
-contract AIGC_NFT is ERC721, IERC7007, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIdCounter;
-
-    struct AigcContent {
-        bytes prompt;
-        bytes aigcData;
-        bytes proof;
+contract AIART721 is ERC721Enumerable, Ownable {
+    uint256 private _nextTokenId;
+    uint256 public mintPrice = 0.01 ether; // Set your desired minting price
+    struct AIArtwork {
+        address creator;
+        string prompt;
+        string aiModelUsed;
+        bytes32 aiModelSignature;
+        uint256 timestamp;
     }
 
-    mapping(uint256 => AigcContent) private _aigcContents;
+    mapping(uint256 => AIArtwork) public artworkDetails;
+    
+    constructor() ERC721("AI Generated Art", "AIART") Ownable(msg.sender) {}
 
-    constructor() ERC721("AIGC_NFT", "AIGC") {}
+    function mint(
+        address to, 
+        string memory prompt, 
+        string memory aiModelUsed,
+        bytes32 aiModelSignature
+    ) public returns (uint256) {
+        require(msg.value >= mintPrice, "Insufficient Ether sent");
+        uint256 newTokenId = _nextTokenId++;
+        
+        _safeMint(to, newTokenId);
 
-    function addAigcData(
-        uint256 tokenId,
-        bytes calldata prompt,
-        bytes calldata aigcData,
-        bytes calldata proof
-    ) external override onlyOwner {
-        require(_exists(tokenId), "ERC7007: Token does not exist");
-        _aigcContents[tokenId] = AigcContent(prompt, aigcData, proof);
-        emit AigcData(tokenId, prompt, aigcData, proof);
+        artworkDetails[newTokenId] = AIArtwork({
+            creator: msg.sender,
+            prompt: prompt,
+            aiModelUsed: aiModelUsed,
+            aiModelSignature: aiModelSignature,
+            timestamp: block.timestamp
+        });
+
+        return newTokenId;
     }
 
-    function verify(
-        bytes calldata prompt,
-        bytes calldata aigcData,
-        bytes calldata proof
-    ) external view override returns (bool success) {
-        // Implement your verification logic here
-        return true;
-    }
-
-    function safeMint(address to, bytes calldata prompt) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        // Optionally, add AIGC data here
+    function getArtworkDetails(uint256 tokenId) public view returns (AIArtwork memory) {
+        require(tokenId < _nextTokenId, "Token does not exist");
+        return artworkDetails[tokenId];
     }
 }
