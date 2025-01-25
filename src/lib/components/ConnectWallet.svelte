@@ -1,35 +1,42 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
+   
     import { Card, Button } from 'flowbite-svelte';
     import { ethers } from 'ethers';
-    
-    import detectEthereumProvider from '@metamask/detect-provider';
-   // import { walletStore } from '../../stores/walletStore';
-    import { get } from 'svelte/store'; // Import `get` to read from the store
-    import { MetaMaskStore } from "$lib";
-    const { walletState, isMetaMaskPresent, connect, loaded, init,disconnect, mintNFT } = MetaMaskStore();
-    console.log("wallet",$walletState.account)
-    onMount(() => {
-        init();
-    });
-    //const { isConnected, userAddress } = get(walletStore);
+	export let web3Props: Web3Props;
+   
+    let walletAddress = null; // Stores the connected wallet address
+    let isConnected = false;  // Tracks connection state
+    let ethBalance = null;    // Stores the ETH balance
+  
+    // Function to handle wallet connection
+    async function connectWallet() {
+        if (!window.ethereum) {
+            console.error('MetaMask is not installed!');
+            return;
+        }
+        
+        let provider = new ethers.BrowserProvider(window.ethereum, 'any');
+        await provider.send('eth_requestAccounts', []);
+        
+        const signer = await provider.getSigner();
+        const account = await signer.getAddress();
+        const network = await provider.getNetwork(); // providerからネットワーク情報を取得
+        const chainId = network.chainId; // ネットワーク情報からチェーンIDを取得
+        
+        web3Props = { signer, provider, chainId, account };
+    }
   </script>
+ 
   
-  <main>
-    
-    {#if $loaded}
-    {#if $isMetaMaskPresent}
-    {#if Boolean($walletState.account)}
-        <Button on:click={disconnect}> `${$walletState.account}`</Button>
+  <Card>
+    {#if isConnected}
+      <div class="info">
+        <p>Connected as: {walletAddress}</p>
+      </div>
     {:else}
-        <Button on:click={connect}> Connect Wallet </Button>
+      <Button class="button connect" on:click={connectWallet}>
+        Connect Wallet
+      </Button>
     {/if}
-    {:else}
-    <Button href="https://metamask.io/ja/download/"> Please install MetaMask </Button>
-    {/if}
-    {:else}
-    <p>Loading...</p>
-    {/if}
-
-  
-</main>
+  </Card>

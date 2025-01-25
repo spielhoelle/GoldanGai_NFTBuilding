@@ -10,7 +10,8 @@
   import { floorNames } from "$lib/get_floor_api"
   import { onMount } from "svelte"
   import "../app.css"
-  import ConnectWallet from "$lib/components/ConnectWallet.svelte"
+  //import ConnectWallet from "$lib/components/ConnectWallet.svelte"
+  import WalletConnectV2 from "$lib/components/WalletConnect_v2.svelte";
   import { browser } from "$app/environment"
 
   let sidebarOpen = false
@@ -49,6 +50,26 @@
   }
 </script>
 
+<style>
+  /* Adjust main content to respect the top bar */
+  main {
+    margin-top: 4rem; /* Push main content below the header */
+  }
+
+  .header {
+    z-index: 50; /* Ensure header is always on top */
+  }
+
+  .sidebar {
+    z-index: 40; /* Sidebar should appear below the header */
+  }
+
+  .main-content {
+    overflow-y: auto;
+    height: calc(100vh - 4rem); /* Take the remaining height below the header */
+  }
+</style>
+
 <div class="header h-16 flex items-center justify-between px-4 bg-primary">
   <Button on:click={toggleSidebar} class="text-xl" aria-label="Toggle Sidebar">
     ☰
@@ -70,7 +91,7 @@
     </label>
   </div>
 
-  <ConnectWallet />
+  <WalletConnectV2 />
 </div>
 <div class="flex h-screen">
   <Sidebar style={sidebarOpen ? "display: block;" : "display: none;"}>

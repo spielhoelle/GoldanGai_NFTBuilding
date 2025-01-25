@@ -2,9 +2,11 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("Deploying contracts with the account:", deployer.address);
   
-    const AIGC_NFT = await ethers.getContractFactory("AIGC_NFT");
-    const aigcNFT = await AIGC_NFT.deploy();
-    console.log("AIGC_NFT contract deployed to:", aigcNFT.address);
+    const AIART721 = await ethers.getContractFactory("AIART721");
+    const aiArt721 = await AIART721.deploy();
+    await aiArt721.waitForDeployment();
+    console.log("AIART721 deployed to:", aiArt721.target);
+    
   }
   
   main()

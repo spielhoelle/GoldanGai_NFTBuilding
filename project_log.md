@@ -43,6 +43,34 @@ npm install --save-dev hardhat @nomiclabs/hardhat-waffle ethereum-waffle
 create empty hardhat.config file. a new "hardhat.config.cjs" should appear 
 - added in Ganache info for the network settings 
 - created test erc7007 contract 
+sorted out geting hardhat workinfg
+```
+ npx hardhat run scripts/depoly.js --network ganache
+ ```
+issue #contract deployed to: undefined"
+
+Code update ad waitForDeployment
+```
+const AIART721 = await ethers.getContractFactory("AIART721");
+const aiArt721 = await AIART721.deploy();
+await aiArt721.waitForDeployment();
+console.log("AIART721 deployed to:", aiArt721.target);
+```
+
+ts/depoly.js --network ganache
+Deploying contracts with the account: 0xf853742aFA6c5f87F1B89E151d35fE8aB4459296
+AIART721 deployed to: 0x5115b548a8a834bd291BB2E16F1e74c234AE2e1A
+
+keep arsking for somthjing called an ABI  ? 
+
+# MintNFT compents 
+
+## S1 upload image url to PINATA 
+
+NFT can create and deploy nfts on 
+https://docs.openzeppelin.com/contracts/5.x/wizard
+
+
 
 Issues package version errors 
 
