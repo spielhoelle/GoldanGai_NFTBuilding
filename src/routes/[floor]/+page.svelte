@@ -52,6 +52,7 @@
             </h1>
             <p class="mb-4">{floor.description}</p>
             <p class="mb-4">Floor theme {floor.style}</p>
+            <p class="mb-4">Rooms model hash {floor.version}</p>
 
             <div class="mt-8">
                 <h2 class="text-2xl font-semibold mb-4">Rooms</h2>
@@ -60,22 +61,19 @@
                     <input 
                     type="checkbox" 
                     class="absolute top-2 right-2" 
-                    on:change={() => toggleSelection(room.room_style)}
-                    checked={selectedRoom === room.room_style} 
+                    on:change={() => toggleSelection(room.room_prompt)}
+                    checked={selectedRoom === room.room_prompt} 
                   />
                     <h3 class="text-xl font-bold">{room.roomName}</h3>
                     <p>{room.description}</p>
-                    
-                    {#if room.room_style}
-                      <p><strong>Style:</strong> {room.room_style}</p>
-                    {/if}
+                 
                   </Card>
                 {/each}
               </div>
 
             <Button href="/">Back to Lobby</Button>
         </Card>
-        <ImageGenerator roomStyle={selectedRoom} floorStyle={floor.style} />
+        <ImageGenerator roomPrompt={selectedRoom} floorStyle={floor.style} version={floor.versions}/>
         <MintNft/> 
     </div>
    

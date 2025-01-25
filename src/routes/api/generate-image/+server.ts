@@ -4,11 +4,10 @@ import { REPLICATE_API_TOKEN } from '$env/static/private';
 
 const REPLICATE_API_URL = 'https://api.replicate.com/v1/predictions';
 const REPLICATE_FLUX_BASE = 'https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions';
-const version = "6e7e34b8d739ab9d4d9a468ef773b5cd85a5c36b11f885379061ba2c70219d41" // Ensure this is initialized with a valid version or handle empty case
 
 export const POST: RequestHandler = async ({ request }) => {
     try {
-        const { prompt } = await request.json();
+        const { prompt,version} = await request.json();
 
         // Validate input
         if (!prompt) {

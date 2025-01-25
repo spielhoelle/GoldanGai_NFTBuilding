@@ -6,23 +6,26 @@
    
     let isLoading: boolean = false;  // To show loading state
     let errorMessage: string | null = null; // To display error message
-    
-    export let roomStyle: string;
+    let inputText: string | null = null;
+    export let roomPrompt: string;
     export let floorStyle: string;
+    export let version: string;
 
     async function generateImage() {
-         if (!roomStyle || !floorStyle) {
-            errorMessage = "Both room style and floor style are required.";
+         console.log(roomPrompt, floorStyle, version);
+         if (!roomPrompt || !floorStyle || !version) {
+            errorMessage = "Both room prompt, model version and floor style are required.";
             return;
         }
 
         isLoading = true;  // Start loading
         errorMessage = null; // Reset error message
-        const inputText = `a cute cat in the style of ${roomStyle} with a background in the style of ${floorStyle} style`;
+        const inputText = `${roomPrompt} in the stlye of ${floorStyle} style`;
         imageStore.set({
           ...$imageStore, // Spread the current store values
             url: "",
-            prompt: inputText
+            prompt: inputText,
+            model: version
         }); // Reset previous image
         
         try {
@@ -31,7 +34,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ prompt: inputText }), // Pass the input text as prompt
+                body: JSON.stringify({ prompt: inputText, version: version }), // Pass the input text as prompt
             });
 
            // Handle the response
@@ -67,16 +70,11 @@
   <div class="mb-4">
     <input 
       type="text" 
-      bind:value={roomStyle} 
-      placeholder="Enter room style" 
+      bind:value={inputText} 
+      placeholder={$inputText} 
       class="border p-2 rounded w-full mb-2"
     />
-    <input 
-      type="text" 
-      bind:value={floorStyle} 
-      placeholder="Enter floor style" 
-      class="border p-2 rounded w-full"
-    />
+  
   </div>
 
   <!-- Generate button -->

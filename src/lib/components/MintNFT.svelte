@@ -24,7 +24,7 @@
   let ipfsHash = '';
   let mintStatus = '';
   let userSignature = '';
-  let prompt = 'test';
+  let prompt = $imageStore.prompt;
   // Reactive provider and signer management
   //let provider = web3Props.provider ? new ethers.BrowserProvider(window.ethereum) : null;
   const handleUpload = async () => {

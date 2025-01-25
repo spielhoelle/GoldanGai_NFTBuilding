@@ -6,6 +6,7 @@ async function main() {
     const aiArt721 = await AIART721.deploy();
     await aiArt721.waitForDeployment();
     console.log("AIART721 deployed to:", aiArt721.target);
+    
   }
   
   main()
