@@ -49,6 +49,26 @@
   }
 </script>
 
+<style>
+  /* Adjust main content to respect the top bar */
+  main {
+    margin-top: 4rem; /* Push main content below the header */
+  }
+
+  .header {
+    z-index: 50; /* Ensure header is always on top */
+  }
+
+  .sidebar {
+    z-index: 40; /* Sidebar should appear below the header */
+  }
+
+  .main-content {
+    overflow-y: auto;
+    height: calc(100vh - 4rem); /* Take the remaining height below the header */
+  }
+</style>
+
 <div class="header h-16 flex items-center justify-between px-4 bg-primary">
   <Button on:click={toggleSidebar} class="text-xl" aria-label="Toggle Sidebar">
     ☰

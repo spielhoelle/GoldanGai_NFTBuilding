@@ -1,7 +1,7 @@
-import { ethers } from 'ethers';
+import { ethers,parseEther } from 'ethers';
 
 export async function mintNFT(
-  provider: ethers.providers.Web3Provider,
+  provider: ethers.BrowserProvider,
   signer: ethers.Signer,
   contractAddress: string,
   contractABI: any,
@@ -23,7 +23,7 @@ export async function mintNFT(
     aiModelUsed,
     aiModelSignature,
     {
-      value: ethers.utils.parseEther('0.01'), // Replace with your minting price
+      value: parseEther('0.01'), // Replace with your minting price
     }
   );
 

@@ -76,9 +76,9 @@
             <Button href="/">Back to Lobby</Button>
         </Card>
         <ImageGenerator roomStyle={selectedRoom} floorStyle={floor.style} />
-        <MintNft/>  
+        <MintNft/> 
     </div>
-
+   
 
     {:else if error}
     <div class="container mx-auto p-4 flex justify-center items-center min-h-screen">
@@ -89,3 +89,4 @@
 {:else}
     <p>Loading...</p>
 {/if}
+

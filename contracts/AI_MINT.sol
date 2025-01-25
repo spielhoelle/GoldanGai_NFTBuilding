@@ -45,4 +45,13 @@ contract AIART721 is ERC721Enumerable, Ownable {
         require(tokenId < _nextTokenId, "Token does not exist");
         return artworkDetails[tokenId];
     }
+    // Function to withdraw Ether from the contract
+    function withdraw() public onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+
+    // Update mint price (only owner)
+    function setMintPrice(uint256 newPrice) public onlyOwner {
+        mintPrice = newPrice;
+    }
 }

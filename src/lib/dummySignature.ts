@@ -2,9 +2,9 @@ import { ethers } from 'ethers';
 
 export async function stringToBytes32(str: string): string {
   // Convert string to bytes
-  const bytes = ethers.utils.toUtf8Bytes(str);
+  const bytes = ethers.toUtf8Bytes(str);
   // Convert bytes to hex
-  let hex = ethers.utils.hexlify(bytes);
+  let hex = ethers.hexlify(bytes);
   // Remove '0x' prefix
   hex = hex.slice(2);
   // Pad with zeros if necessary
