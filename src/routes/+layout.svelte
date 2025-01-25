@@ -10,7 +10,8 @@
   import { floorNames } from "$lib/get_floor_api"
   import { onMount } from "svelte"
   import "../app.css"
-  import ConnectWallet from "$lib/components/ConnectWallet.svelte"
+  //import ConnectWallet from "$lib/components/ConnectWallet.svelte"
+  import WalletConnectV2 from "$lib/components/WalletConnect_v2.svelte";
   import { browser } from "$app/environment"
 
   let sidebarOpen = false
@@ -90,7 +91,7 @@
     </label>
   </div>
 
-  <ConnectWallet />
+  <WalletConnectV2 />
 </div>
 <div class="flex h-screen">
   <Sidebar style={sidebarOpen ? "display: block;" : "display: none;"}>
