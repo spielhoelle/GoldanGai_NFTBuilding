@@ -83,10 +83,10 @@ jobs:
             --path kubernetes/charts/static
             --revision main
             --dest-server https://kubernetes.default.svc
-            --dest-namespace llm
+            --dest-namespace static
             --auth-token ${{ secrets.ARGOCD_AUTH_TOKEN }}
             --server c.tmy.io
-            --project llm
+            --project static
             --auto-prune
             --values ../../config/goldangai.yaml
             --sync-policy automated

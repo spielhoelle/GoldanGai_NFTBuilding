@@ -1,5 +1,5 @@
 FROM --platform=linux/amd64 node:20-alpine
-LABEL org.opencontainers.image.source https://github.com/spielhoelle/goldangai
+LABEL org.opencontainers.image.source https://github.com/spielhoelle/GoldanGai_NFTBuilding
 RUN npm install -g pnpm
 # RUN apk add --no-cache openssl
 WORKDIR /app
