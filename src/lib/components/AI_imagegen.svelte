@@ -21,12 +21,12 @@
         isLoading = true;  // Start loading
         errorMessage = null; // Reset error message
         const inputText = `${roomPrompt} in the stlye of ${floorStyle} style`;
-        imageStore.set({
-          ...$imageStore, // Spread the current store values
-            url: "",
-            prompt: inputText,
-            model: version
-        }); // Reset previous image
+        // imageStore.set({
+        //   ...$imageStore, // Spread the current store values
+        //     url: "",
+        //     prompt: inputText,
+        //     model: version
+        // }); // Reset previous image
         
         try {
             const response = await fetch('/api/generate-image', {
@@ -40,15 +40,17 @@
            // Handle the response
           if (response.ok) {
             const data = await response.json();
-            imageStore.set({
-            ...$imageStore, // Spread the current store values
-              url: data.output[0],
-              prompt: inputText,
-              genInfo: data,
-              model: data.model,
-              date: new Date(),
-              author: "TEST"
-           });
+            imageStore.update((items: Image) => {
+              items.push({
+                url: data.output[0],
+                prompt: inputText,
+                genInfo: data,
+                model: data.model,
+                date: new Date(),
+                author: "TEST",
+              })
+              return items
+            })
            // imageUrlStore.set(data.output[0]); // Assuming the response contains the image URL
           } else {
             errorMessage = 'Failed to generate image. Please try again.';
@@ -88,13 +90,13 @@
   {/if}
 
   <!-- Show generated image -->
-  {#if $imageStore.url}
+  {#if $imageStore.length > 0}
     <div class="mt-4">
       <h3 class="text-xl font-semibold mb-2">Generated Image</h3>
-      <img src={$imageStore.url} alt="Generated style image" class="w-full max-w-lg mx-auto" />
+      <img src={$imageStore[0].url} alt="Generated style image" class="w-full max-w-lg mx-auto" />
       <div class="mt-2 p-2 border rounded bg-gray-100">
         <h4 class="text-lg font-medium">Generation Info:</h4>
-        <pre class="text-sm overflow-auto">{JSON.stringify($imageStore.genInfo, null, 2)}</pre>
+        <pre class="text-sm overflow-auto">{JSON.stringify($imageStore[0].genInfo, null, 2)}</pre>
       </div>
     </div>
   {/if}

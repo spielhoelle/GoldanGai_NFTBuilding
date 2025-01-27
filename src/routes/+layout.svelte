@@ -98,7 +98,7 @@
     <SidebarGroup>
       {#each floorNames as floor}
         <SidebarItem
-          href={floor.floorName === "lobby" ? "/" : `/${floor}`}
+          href={floor.floorName === "lobby" ? "/" : `/${floor.floorName}`}
           label={floor.floorName === "lobby"
             ? "Lobby"
             : floor.floorName.replace("floor-", "Floor ")}

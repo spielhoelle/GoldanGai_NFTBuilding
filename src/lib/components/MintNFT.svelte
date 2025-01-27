@@ -8,7 +8,7 @@
   import { Card, Button } from 'flowbite-svelte';
   import { stringToBytes32 } from '$lib/dummySignature'; 
   //import contractABI from '../../artifacts/src/contracts/NFT_V1.sol/AIART721.json' assert { type: 'json' };
-  import contractABI from "C:/Users/jarvi/Documents/GIT/GoldanGai_NFTBuilding/src/artifcats/src/contracts/NFT_V1.sol/AIART721.json";
+  import contractABI from "../../artifcats/src/contracts/NFT_V1.sol/AIART721.json"
   //import contractABI from '$lib/contracts/AIART721.json'; 
   export let web3Props: Web3Props;
   // Constants0xf853742aFA6c5f87F1B89E151d35fE8aB4459296
@@ -24,11 +24,11 @@
   let ipfsHash = '';
   let mintStatus = '';
   let userSignature = '';
-  let prompt = $imageStore.prompt;
+  let prompt = $imageStore[0].prompt;
   // Reactive provider and signer management
   //let provider = web3Props.provider ? new ethers.BrowserProvider(window.ethereum) : null;
   const handleUpload = async () => {
-    if (!$imageStore.url) {
+    if (!$imageStore[0].url) {
       mintStatus = 'Please select a file to upload.';
       return;
     }
@@ -40,7 +40,7 @@
       const response = await fetch('/api/pinata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ imageUrl: $imageStore.url }),
+        body: JSON.stringify({ imageUrl: $imageStore[0].url }),
       });
 
       const result = await response.json();
