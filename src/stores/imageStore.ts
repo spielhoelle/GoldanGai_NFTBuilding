@@ -1,13 +1,14 @@
 import { writable } from 'svelte/store';
 
 // Define the type for an image object
-interface Image {
+export interface Image {
   url: string;
   prompt: string;
   author: string | null;
   date: Date | null;
   model: string;
   genInfo: Record<string, any>; // Adjustable for your needs
+  path: string
 }
 
 // Helper function to check if localStorage is available

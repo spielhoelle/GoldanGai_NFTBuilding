@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { imageStore } from "../../stores/imageStore"
+  import { type Image, imageStore } from "../../stores/imageStore"
   import { Card, Button } from "flowbite-svelte"
+  import { afterNavigate } from "$app/navigation"
   //let imageUrlStore: string | null = null;  // Holds the URL of the generated image
 
   let isLoading: boolean = false // To show loading state
@@ -45,6 +46,7 @@
             model: data.model,
             date: new Date(),
             author: "TEST",
+            path: window.location.pathname,
           })
           return items
         })
@@ -59,6 +61,12 @@
       isLoading = false // Stop loading
     }
   }
+
+  let floorImages: Image[]
+  floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
+  afterNavigate(() => {
+    floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
+  })
 </script>
 
 <Card>
@@ -90,22 +98,20 @@
 
   <!-- Show generated image -->
   {#if $imageStore.length > 0}
-    <div class="mt-4">
-      <h3 class="text-xl font-semibold mb-2">Generated Image</h3>
-      <img
-        src={$imageStore[0].url}
-        alt="Generated style image"
-        class="w-full mx-auto"
-      />
-      <div class="mt-2 p-2 border bg-gray-100">
-        <h4 class="text-lg font-medium">Generation Info:</h4>
-        <pre class="text-sm overflow-auto">{JSON.stringify(
-            $imageStore[0].genInfo,
-            null,
-            2,
-          )}</pre>
+    {#each floorImages as fI}
+      <div class="mt-4">
+        <h3 class="text-xl font-semibold mb-2">Generated Image</h3>
+        <img src={fI.url} alt="Generated style image" class="w-full mx-auto" />
+        <div class="mt-2 p-2 border bg-gray-100">
+          <h4 class="text-lg font-medium">Generation Info:</h4>
+          <pre class="text-sm overflow-auto max-h-32">{JSON.stringify(
+              fI.genInfo,
+              null,
+              2,
+            )}</pre>
+        </div>
       </div>
-    </div>
+    {/each}
   {/if}
 
   <!-- Show error message -->
