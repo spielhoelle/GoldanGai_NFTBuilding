@@ -173,7 +173,7 @@
   <div class="space-y-4">
     <Button 
       on:click={handleMint} 
-      disabled={isMinting || !$imageStore.url || !$walletStore.isConnected}
+      disabled={isMinting || !$imageStore[0].url || !$walletStore.isConnected}
     >
       {isMinting ? 'Minting...' : 'Mint NFT'}
     </Button>

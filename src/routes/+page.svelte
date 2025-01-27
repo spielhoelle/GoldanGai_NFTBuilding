@@ -25,7 +25,7 @@
   <h1 class="text-3xl font-bold mb-6">Building Lobby</h1>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {#each floorNames.filter((f) => f.floorName !== "lobby") as floor}
-      <Card href={`/${floor.floorName}`} class="hover:bg-primary-50">
+      <Card href={`/${floor.floorName}`} class="hover:bg-primary-50 max-w-xl">
         <h5
           class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-3"
         >
@@ -52,15 +52,11 @@
           Visit Floor
           <ArrowRightOutline class="w-4 h-4 ms-2.5" />
         </a>
-
-        <!-- <Button href={`/${floor.floorName}`} outline> -->
-        <!--   Visit Floor <ArrowRightOutline class="w-6 h-6 text-white" /> -->
-        <!-- </Button> -->
       </Card>
     {/each}
 
     {#if lobbyDetails}
-      <Card>
+      <Card class="max-w-xl">
         <h5
           class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
@@ -71,4 +67,3 @@
     {/if}
   </div>
 </div>
-
