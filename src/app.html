@@ -1,11 +1,28 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
+  <head>
+      <meta charset="utf-8" />
+      <link rel="icon" href="%sveltekit.assets%/logo.png" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
+      <!-- Open Graph meta tags for Facebook and other platforms -->
+      <meta property="og:title" content="GoldenGai AI Gen Party" />
+      <meta property="og:description" content="GoldenGai AI Gen Party is a NFT app where you can mint NFTs and generate images based on the floorstyle and room name of your current location." />
+      <meta property="og:image" content="/logo.png" />
+      <meta property="og:url" content="https://goldangai.tmy.io" />
+      <meta property="og:type" content="website" />
+
+      <!-- Twitter Card meta tags -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="GoldenGai AI Gen Party" />
+      <meta name="twitter:description" content="GoldenGai AI Gen Party is a NFT app where you can mint NFTs and generate images based on the floorstyle and room name of your current location." />
+      <meta name="twitter:image" content="URL to your image" />
+      <meta name="twitter:site" content="@yourusername" />
+      <!-- pwa manifest -->
+      <link rel="manifest" href="%sveltekit.assets%/manifest.json">
+
+      %sveltekit.head%
+  </head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>

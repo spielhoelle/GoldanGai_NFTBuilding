@@ -1,0 +1,43 @@
+{
+  "name": "gal:chat",
+  "short_name": "gal:chat",
+  "display": "standalone",
+  "display_override": [
+    "fullscreen",
+    "minimal-ui"
+  ],
+  "background_color": "transparent",
+  "description": "A universe of interactive anime-inspired characters.",
+  "id": "/",
+  "start_url": "/chat?source=pwa",
+  "scope": "/",
+  "theme_color": "#8080FF",
+  "shortcuts": [
+    {
+      "name": "Chat",
+      "short_name": "Chat",
+      "description": "Go to chat",
+      "url": "/chat?source=pwa",
+      "icons": [
+        {
+          "src": "/logo_192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "/logo_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo_180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
