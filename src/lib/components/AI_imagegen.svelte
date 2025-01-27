@@ -19,7 +19,7 @@
 
     isLoading = true // Start loading
     errorMessage = null // Reset error message
-    const inputText = `a cute cat in the style of ${roomStyle} with a background in the style of ${floorStyle} style`
+    const inputText = `${roomStyle} in the stlye of ${floorStyle} style`
     // imageStore.set({
     //   ...$imageStore, // Spread the current store values
     //   url: "",
