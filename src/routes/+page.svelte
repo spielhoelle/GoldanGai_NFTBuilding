@@ -22,6 +22,31 @@
 </script>
 
 <div class="container mx-auto p-4">
+  <div class="flex items-center justify-between mt-3 px-3 z-10">
+    <div class="relative w-full">
+      <input
+        type="text"
+        class="bg-purple-white shadow rounded-xl border-0 p-3 w-full"
+        placeholder="Search somthing..."
+      />
+      <div class="absolute top-0 right-0 p-4 pr-3 text-purple-lighter">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
   <h1 class="text-3xl font-bold mb-6">Building Lobby</h1>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     {#each floorNames.filter((f) => f.floorName !== "lobby") as floor}

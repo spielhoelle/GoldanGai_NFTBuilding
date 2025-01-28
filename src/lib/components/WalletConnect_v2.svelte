@@ -45,7 +45,6 @@
   </script>
  
   
-  <Card>
     {#if isConnected}
       <div class="info">
         <Button>Connected as: {walletAddress}</Button>
@@ -55,4 +54,3 @@
         Connect Wallet
       </Button>
     {/if}
-  </Card>
