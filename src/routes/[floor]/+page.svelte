@@ -5,6 +5,8 @@
   import { onMount } from "svelte"
   //compoenet
   import ImageGenerator from "$lib/components/AI_imagegen.svelte"
+  import { AccordionItem, Accordion } from "flowbite-svelte"
+
   //import MintNft from '$lib/components/MintNFT.svelte';
   let floor: Floor | null = null
   let error: string | null = null
@@ -42,8 +44,8 @@
 </script>
 
 {#if floor}
-  <div class="container mx-auto flex justify-center min-h-full">
-    <Card class="w-full p-8">
+  <div class="flex flex-wrap justify-center min-h-full w-full">
+    <Card class="" size="lg" padding="xl">
       <h1 class="text-3xl font-bold mb-4">
         {$page.params.floor === "lobby"
           ? "Lobby"
@@ -54,22 +56,24 @@
 
       <div class="mt-8">
         <h2 class="text-2xl font-semibold mb-4">Rooms</h2>
-        {#each floor.rooms as room}
-          <Card class="mb-6 p-4 relative">
-            <input
-              type="checkbox"
-              class="absolute top-2 right-2"
-              on:change={() => toggleSelection(room.roomName)}
-              checked={selectedRoom === room.roomName}
-            />
-            <h3 class="text-xl font-bold">{room.roomName}</h3>
-            <p>{room.description}</p>
+        <Accordion>
+          {#each floor.rooms as room, index}
+            <AccordionItem open={index == 0}>
+              <span slot="header">{room.roomName}</span>
+              <input
+                type="checkbox"
+                class="right-2"
+                on:change={() => toggleSelection(room.roomName)}
+                checked={selectedRoom === room.roomName}
+              />
+              <p>{room.description}</p>
 
-            {#if room.room_prompt}
-              <p><strong>Style:</strong> {room.room_prompt}</p>
-            {/if}
-          </Card>
-        {/each}
+              {#if room.room_prompt}
+                <p><strong>Style:</strong> {room.room_prompt}</p>
+              {/if}
+            </AccordionItem>
+          {/each}
+        </Accordion>
       </div>
 
       <Button href="/">Back to Lobby</Button>
@@ -88,4 +92,3 @@
 {:else}
   <p>Loading...</p>
 {/if}
-

@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { onMount } from "svelte"
-  import { type Image, imageStore } from "../../stores/imageStore"
-  import { Card, Button } from "flowbite-svelte"
   import { afterNavigate } from "$app/navigation"
-  //let imageUrlStore: string | null = null;  // Holds the URL of the generated image
+  import { Accordion, AccordionItem, Button, Card } from "flowbite-svelte"
+  import { type Image, imageStore } from "../../stores/imageStore"
+
+  import { afterUpdate } from "svelte"
 
   let isLoading: boolean = false // To show loading state
   let errorMessage: string | null = null // To display error message
 
   export let roomStyle: string
   export let floorStyle: string
+
+  let canSubmit = roomStyle !== ""
+  let selectedImage = -1
 
   async function generateImage() {
     if (!roomStyle || !floorStyle) {
@@ -42,7 +45,9 @@
           })
           return items
         })
-        floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
+        floorImages = $imageStore.filter(
+          (i) => i.path === window.location.pathname,
+        )
       } else {
         errorMessage = "Failed to generate image. Please try again."
       }
@@ -54,20 +59,26 @@
     }
   }
 
+  afterUpdate(() => {
+    canSubmit = roomStyle !== ""
+  })
   let floorImages: Image[]
   floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
   afterNavigate(() => {
     floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
   })
+
+  function toggleSelectionImage(value: number) {
+    selectedImage = value
+  }
 </script>
 
-<Card>
-  <!-- Input fields for room and floor style -->
+<Card size="lg">
   <div class="mb-4">
     <input
       type="text"
       bind:value={roomStyle}
-      placeholder="Enter room style"
+      placeholder="Select room style"
       class="border p-2 w-full mb-2"
     />
     <input
@@ -79,7 +90,9 @@
   </div>
 
   <!-- Generate button -->
-  <Button on:click={generateImage} class="mb-4">Generate Image</Button>
+  <Button disabled={!canSubmit} on:click={generateImage} class="mb-4"
+    >Generate Image</Button
+  >
 
   <!-- Show loading state -->
   {#if isLoading}
@@ -88,30 +101,54 @@
     </div>
   {/if}
 
-  <!-- Show generated image -->
-  {#if $imageStore.length > 0}
-    {#each floorImages as fI}
-      <div class="mt-4">
-        <h3 class="text-xl font-semibold mb-2">Generated Image</h3>
-        <img src={fI.url} alt="Generated style image" class="w-full mx-auto" />
-        <div class="mt-2 p-2 border bg-gray-100">
-          <h4 class="text-lg font-medium">Generation Info:</h4>
-          <pre class="text-sm overflow-auto max-h-32">{JSON.stringify(
-              fI.genInfo,
-              null,
-              2,
-            )}</pre>
-        </div>
-      </div>
-    {/each}
-  {/if}
-
   <!-- Show error message -->
   {#if errorMessage}
     <div class="mt-4 p-4 bg-red-200 text-red-700">
       <p>{errorMessage}</p>
     </div>
   {/if}
+
+  <!-- Show generated image -->
+  {#if $imageStore.length > 0}
+    <Accordion>
+      {#each floorImages as fI, index}
+        <AccordionItem open={index == 0}>
+          <span slot="header">{fI.prompt}</span>
+          <div class="">
+            <h3 class="text-xl font-semibold mb-2">
+              <input
+                type="checkbox"
+                class="border p-2"
+                on:change={() => toggleSelectionImage(index)}
+                checked={selectedImage == index}
+              />
+              Generated Image
+            </h3>
+            <div class="flex w-80">
+              <img src={fI.url} />
+            </div>
+            <div class="mt-2 p-2 border bg-gray-100">
+              <h4 class="text-lg font-medium">Generation Info:</h4>
+              <pre class="text-sm overflow-auto max-h-32">{JSON.stringify(
+                  fI.genInfo,
+                  null,
+                  2,
+                )}</pre>
+            </div>
+          </div>
+        </AccordionItem>
+      {/each}
+    </Accordion>
+  {/if}
+
+  <!-- Generate button -->
+  <Button
+    disabled={!canSubmit || selectedImage === -1}
+    on:click={(e) => {
+      console.log(`Here should come the mint action`)
+    }}
+    class="mb-4">Mint</Button
+  >
 </Card>
 
 <style>
