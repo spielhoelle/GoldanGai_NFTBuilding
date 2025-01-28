@@ -20,12 +20,6 @@
     isLoading = true // Start loading
     errorMessage = null // Reset error message
     const inputText = `${roomStyle} in the stlye of ${floorStyle} style`
-    // imageStore.set({
-    //   ...$imageStore, // Spread the current store values
-    //   url: "",
-    //   prompt: inputText,
-    // }) // Reset previous image
-
     try {
       const response = await fetch("/api/generate-image", {
         method: "POST",
@@ -34,8 +28,6 @@
         },
         body: JSON.stringify({ prompt: inputText }), // Pass the input text as prompt
       })
-
-      // Handle the response
       if (response.ok) {
         const data = await response.json()
         imageStore.update((items) => {
@@ -50,7 +42,7 @@
           })
           return items
         })
-        // imageUrlStore.set(data.output[0]); // Assuming the response contains the image URL
+        floorImages = $imageStore.filter((i) => i.path === window.location.pathname)
       } else {
         errorMessage = "Failed to generate image. Please try again."
       }
