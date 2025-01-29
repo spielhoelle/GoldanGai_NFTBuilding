@@ -5,7 +5,7 @@
     import { ethers } from 'ethers';
     import { walletStore } from '../../stores/walletStore';
   	export let web3Props: Web3Props;
-   
+    export let ButtonText:  string
     let walletAddress = null; // Stores the connected wallet address
     let isConnected = false;  // Tracks connection state
     let ethBalance = null;    // Stores the ETH balance
@@ -52,7 +52,7 @@
       </div>
     {:else}
       <Button class="button connect" on:click={connectWallet}>
-        Connect Wallet
+        {ButtonText}
       </Button>
     {/if}
   </Card>

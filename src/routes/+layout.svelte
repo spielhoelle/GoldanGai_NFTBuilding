@@ -11,9 +11,17 @@
   import { onMount } from "svelte"
   import "../app.css"
   //import ConnectWallet from "$lib/components/ConnectWallet.svelte"
+<<<<<<< Updated upstream
   import WalletConnectV2 from "$lib/components/WalletConnect_v2.svelte";
+=======
+  import WalletConnectV2 from "$lib/components/WalletConnect_v2.svelte"
+  import ToggleButton from "$lib/components/ToggleButton.svelte"
+  import  MintOverlay from "$lib/components/MintOverLay.svelte"
+  
+>>>>>>> Stashed changes
   import { browser } from "$app/environment"
-
+  import { isMintOverlayOpen } from "../stores/overlaysStore"
+  
   let sidebarOpen = false
   let width: number
   function toggleSidebar() {
@@ -21,6 +29,7 @@
   }
   onMount(() => {
     width = window.innerWidth
+    isMintOverlayOpen.set(false) //set to falce on reload 
   })
 
   let darkMode = true
@@ -50,6 +59,63 @@
   }
 </script>
 
+<<<<<<< Updated upstream
+=======
+<div class="header flex items-center justify-between bg-primary">
+  <ToggleButton {toggleSidebar} />
+
+  <h1 class="text-center flex-grow text-white text-lg font-bold">
+    GoldenGai AI gen party
+  </h1>
+
+
+  <WalletConnectV2 />
+</div>
+<div class="flex h-screen">
+  <Sidebar
+    class="fixed bg-white text-dark dark:bg-black dark:text-white top-0 -left-80 md:-left-80 h-screen w-80 md:w-80 transition-transform z-10 {sidebarOpen
+      ? 'translate-x-80 md:translate-x-80'
+      : ''}"
+  >
+    <SidebarGroup>
+      <ToggleButton {toggleSidebar} />
+      {#each floorNames as floor}
+        <SidebarItem
+          href={floor.floorName === "lobby" ? "/" : `/${floor.floorName}`}
+          label={floor.floorName === "lobby"
+            ? "Lobby"
+            : floor.floorName.replace("floor-", "Floor ")}
+          on:click={toggleSidebar}
+        />
+      {/each}
+      <div class="mr-2">
+        <label for="theme-toggle" class="flex ms-5 mt-8">
+          <span class="mr-2">DarkTheme</span>
+          <Toggle
+            checked={darkMode}
+            on:click={handleSwitchDarkMode}
+            type="checkbox"
+            id="theme-toggle"
+          />
+        </label>
+      </div>
+    </SidebarGroup>
+  </Sidebar>
+
+  <main class="flex-grow relative p-4">
+    <div class="z-50">
+      
+      {#if $isMintOverlayOpen}
+        <MintOverlay />
+      {/if}
+      
+      <slot />
+
+    </div>
+  </main>
+</div>
+
+>>>>>>> Stashed changes
 <style>
   /* Adjust main content to respect the top bar */
   main {
@@ -98,7 +164,7 @@
     <SidebarGroup>
       {#each floorNames as floor}
         <SidebarItem
-          href={floor.floorName === "lobby" ? "/" : `/${floor}`}
+          href={floor.floorName === "lobby" ? "/" : `/${floor.floorName}`}
           label={floor.floorName === "lobby"
             ? "Lobby"
             : floor.floorName.replace("floor-", "Floor ")}
