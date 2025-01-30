@@ -86,7 +86,7 @@ jobs:
             --dest-namespace goldengai
             --auth-token ${{ secrets.ARGOCD_AUTH_TOKEN }}
             --server c.tmy.io
-            --project static
+            --project goldangai
             --auto-prune
             --values ../../config/goldangai.yaml
             --sync-policy automated
