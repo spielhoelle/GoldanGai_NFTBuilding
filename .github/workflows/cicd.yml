@@ -83,7 +83,7 @@ jobs:
             --path kubernetes/charts/static
             --revision main
             --dest-server https://kubernetes.default.svc
-            --dest-namespace static
+            --dest-namespace goldengai
             --auth-token ${{ secrets.ARGOCD_AUTH_TOKEN }}
             --server c.tmy.io
             --project static
