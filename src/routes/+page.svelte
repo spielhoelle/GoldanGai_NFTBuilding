@@ -30,9 +30,9 @@
         class="bg-purple-white shadow rounded-xl border-0 p-3 w-full"
         placeholder="Search somthing..."
         on:keyup={(event: KeyboardEvent) => {
-          const target = event.target as HTMLInputElement | null;
+          const target = event.target as HTMLInputElement | null
           if (target) {
-            searchFilter = target.value;
+            searchFilter = target.value
           }
         }}
       />
@@ -56,7 +56,13 @@
   </div>
   <h1 class="text-3xl font-bold mb-6">Building Lobby</h1>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    {#each floorNames.filter((f) => f.floorName !== "lobby" && ( f.style?.toLowerCase().includes(searchFilter.toLowerCase()) || f.description.toLowerCase().includes(searchFilter.toLowerCase()) || f.floorName.toLowerCase().includes(searchFilter.toLowerCase()) )) as floor}
+    {#each floorNames.filter((f) => f.floorName !== "lobby" && (f.style
+          ?.toLowerCase()
+          .includes(searchFilter.toLowerCase()) || f.description
+            .toLowerCase()
+            .includes(searchFilter.toLowerCase()) || f.floorName
+            .toLowerCase()
+            .includes(searchFilter.toLowerCase()))) as floor}
       <Card href={`/${floor.floorName}`} class="hover:bg-primary-50 max-w-xl">
         <h5
           class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-3"

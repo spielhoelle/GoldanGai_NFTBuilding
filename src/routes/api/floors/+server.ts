@@ -1,4 +1,4 @@
-import { error, json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit'
 
 const floors = [
   { floorName: 'lobby', description: 'The main entrance of the building.' },
@@ -13,23 +13,38 @@ const floors = [
   { floorName: 'floor-9', description: 'Ninth floor description.' },
 
   // Add more floors as needed
-];
+]
 
 
 export async function GET({ url }) {
-  const floorName = url.searchParams.get('floorName') || 'lobby';
+  const floorName = url.searchParams.get('floorName') || 'lobby'
 
-  const floor = floors.find(f => f.floorName === floorName);
+  const floor = floors.find(f => f.floorName === floorName)
 
   if (!floor) {
     return new Response(JSON.stringify({ error: 'Floor not found' }), {
       status: 404,
       headers: { 'Content-Type': 'application/json' }
-    });
+    })
+  }
+  const floorName = url.searchParams.get('floorName') || 'lobby'
+
+  const floor = floors.find(f => f.floorName === floorName)
+
+  if (!floor) {
+    return new Response(JSON.stringify({ error: 'Floor not found' }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 
-  return json(floor);
+  return json(floor)
+  return json(floor)
 }
+
+// export async function GET_ALL() {
+//     return json(floors);
+// }
 
 // export async function GET_ALL() {
 //     return json(floors);

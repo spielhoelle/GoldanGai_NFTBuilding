@@ -14,6 +14,8 @@
   import WalletConnectV2 from "$lib/components/WalletConnect_v2.svelte"
   import ToggleButton from "$lib/components/ToggleButton.svelte"
   import { browser } from "$app/environment"
+  import { isMintOverlayOpen } from "../stores/overlaysStore"
+  import MintOverlay from "$lib/components/MintOverLay.svelte"
 
   let sidebarOpen = false
   let width: number
@@ -22,6 +24,7 @@
   }
   onMount(() => {
     width = window.innerWidth
+    isMintOverlayOpen.set(false) //set to falce on reload
   })
 
   let darkMode = true
@@ -57,7 +60,6 @@
   <h1 class="text-center flex-grow text-white text-lg font-bold">
     GoldenGai AI gen party
   </h1>
-
 
   <WalletConnectV2 />
 </div>
@@ -99,22 +101,52 @@
   </main>
 </div>
 
-<style>
-  /* Adjust main content to respect the top bar */
-  main {
-    margin-top: 4rem; /* Push main content below the header */
-  }
+<div class="header flex items-center justify-between bg-primary">
+  <ToggleButton {toggleSidebar} />
 
-  .header {
-    z-index: 50; /* Ensure header is always on top */
-  }
+  <h1 class="text-center flex-grow text-white text-lg font-bold">
+    GoldenGai AI gen party
+  </h1>
 
-  .sidebar {
-    z-index: 40; /* Sidebar should appear below the header */
-  }
+  <WalletConnectV2 />
+</div>
+<div class="flex h-screen">
+  <Sidebar
+    class="fixed bg-white text-dark dark:bg-black dark:text-white top-0 -left-80 md:-left-80 h-screen w-80 md:w-80 transition-transform z-10 {sidebarOpen
+      ? 'translate-x-80 md:translate-x-80'
+      : ''}"
+  >
+    <SidebarGroup>
+      <ToggleButton {toggleSidebar} />
+      {#each floorNames as floor}
+        <SidebarItem
+          href={floor.floorName === "lobby" ? "/" : `/${floor.floorName}`}
+          label={floor.floorName === "lobby"
+            ? "Lobby"
+            : floor.floorName.replace("floor-", "Floor ")}
+          on:click={toggleSidebar}
+        />
+      {/each}
+      <div class="mr-2">
+        <label for="theme-toggle" class="flex ms-5 mt-8">
+          <span class="mr-2">DarkTheme</span>
+          <Toggle
+            checked={darkMode}
+            on:click={handleSwitchDarkMode}
+            type="checkbox"
+            id="theme-toggle"
+          />
+        </label>
+      </div>
+    </SidebarGroup>
+  </Sidebar>
 
-  .main-content {
-    overflow-y: auto;
-    height: calc(100vh - 4rem); /* Take the remaining height below the header */
-  }
-</style>
+  <main class="flex-grow relative p-4">
+    <div class="z-50">
+      {#if $isMintOverlayOpen}
+        <MintOverlay />
+      {/if}
+      <slot />
+    </div>
+  </main>
+</div>

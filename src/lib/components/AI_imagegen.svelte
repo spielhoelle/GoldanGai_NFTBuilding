@@ -2,6 +2,7 @@
   import { afterNavigate } from "$app/navigation"
   import { Accordion, AccordionItem, Button, Card } from "flowbite-svelte"
   import { type Image, imageStore } from "../../stores/imageStore"
+  import {isMintOverlayOpen,mintImageId} from "../../stores/overlaysStore"
 
   import { afterUpdate } from "svelte"
 
@@ -42,6 +43,7 @@
             date: new Date(),
             author: "TEST",
             path: window.location.pathname,
+                      id: items.length, 
           })
           return items
         })
@@ -146,6 +148,7 @@
     disabled={!canSubmit || selectedImage === -1}
     on:click={(e) => {
       console.log(`Here should come the mint action`)
+            isMintOverlayOpen.set(true) // set over lay 
     }}
     class="mb-4">Mint</Button
   >
